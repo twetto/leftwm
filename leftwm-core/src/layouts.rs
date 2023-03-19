@@ -18,6 +18,7 @@ mod main_and_horizontal_stack;
 mod main_and_vert_stack;
 mod monocle;
 mod right_main_and_vert_stack;
+mod dd;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
 pub enum Layout {
@@ -35,6 +36,7 @@ pub enum Layout {
     Monocle,
     RightWiderLeftStack,
     LeftWiderRightStack,
+    DD,
 }
 
 pub const LAYOUTS: &[Layout] = &[
@@ -52,6 +54,7 @@ pub const LAYOUTS: &[Layout] = &[
     Layout::Monocle,
     Layout::RightWiderLeftStack,
     Layout::LeftWiderRightStack,
+    Layout::DD,
 ];
 
 impl Default for Layout {
@@ -83,6 +86,7 @@ impl Layout {
             Self::RightWiderLeftStack => {
                 right_main_and_vert_stack::update(workspace, tag, windows);
             }
+            Self::DD => dd::update(workspace, tag, windows),
         }
     }
 
@@ -131,6 +135,7 @@ impl FromStr for Layout {
             "Monocle" => Ok(Self::Monocle),
             "RightWiderLeftStack" => Ok(Self::RightWiderLeftStack),
             "LeftWiderRightStack" => Ok(Self::LeftWiderRightStack),
+            "DD" => Ok(Self::DD),
             _ => Err(ParseLayoutError(s.to_string())),
         }
     }
@@ -189,6 +194,7 @@ mod tests {
             "Monocle",
             "RightWiderLeftStack",
             "LeftWiderRightStack",
+            "DD",
         ];
 
         assert_eq!(layout_strs.len(), LAYOUTS.len());
